@@ -1,22 +1,25 @@
-const path = require('path');
+var path = require('path');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'app'),
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: __dirname + 'App.js',
     filename: 'bundle.js'
   },
-  devServer: {
-    port: 3000,
-    contentBase: path.resolve(__dirname, 'build')
+  resolve: {
+    extensions: ['', '.js', '.jsx']
   },
   module: {
-    rules: [
+    loaders: [
       {
-        test: /\.js$/,
+        test: /\.js?$/,
+        loader: 'babel-loader',
         exclude: /node_modules/,
-        use: ['babel-loader']
+        query: {
+          cacheDirectory: true,
+          presets: ['react', 'es2015']
+        }
       }
     ]
   }
-};
+}
