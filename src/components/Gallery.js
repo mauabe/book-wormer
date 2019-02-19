@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import image_missing from './src/assets/image_missing.png';
+import image_missing  from '../assets/image_missing.png';
 
 class Gallery extends Component {
   render (){
     let alternate = image_missing;
-
     return (
       <div>
       {

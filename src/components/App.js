@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-botstrap';
+import FormGroup from 'react-bootstrap/FormGroup';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 import Gallery from './Gallery';
 
 class App extends Component {
@@ -12,33 +15,38 @@ class App extends Component {
   }
 
   search(){
-    const BASE_URL = 'https://www.googleapis.combooks/v1/volumes?q=';
+    const BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
     fetch(`${BASE_URL}${this.state.query}`, {method: 'GET'} )
+    // console.log('search', this.state.query);
     .then(response => response.json())
+    // .then(json => console.log(json))
     .then(json => {
         let { items } = json;
-        this.setState({items })
+        this.setState({ items })
     });
   }
 
-    // console.log('search', this.state.query);
   
   render(){
     return(
       <div className='App'> 
         <h2>Book Wormer</h2>
         <FormGroup>
-          <FormControl 
-            type= 'text' 
-            placeholder='search for a book' 
-            onChange={event => this.setState({query: event.target.value})}
-            onKeyPress={event => {
-              if(event.key === 'Enter'){ this.search }
-            }}
-          />
-          <InputGroup.Addon onClick={() => this.search()}>
-              <Glyphicon glyph='search'></Glyphicon>
-          </InputGroup.Addon>
+          <InputGroup className="searcher">
+            <FormControl 
+              type= 'text' 
+              placeholder='Looking for a good book...' 
+              onChange={event => this.setState({query: event.target.value})}
+              onKeyPress={event => {
+                if(event.key === 'Enter'){ this.search() }
+              }}
+            />
+            <InputGroup onClick={ () => this.search()} >
+              <button type="button" className="btn btn-info">
+                <span className="glyphicon glyphicon-search"></span> Search
+              </button>
+            </InputGroup> 
+          </InputGroup>
         </FormGroup>
         <Gallery items={this.state.items}/>
       </div>
