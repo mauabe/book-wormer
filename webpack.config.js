@@ -1,25 +1,30 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: path.resolve(__dirname, 'src'),
   output: {
-    path: __dirname + 'App.js',
+    path: path.resolve(__dirname, 'src'),
     filename: 'bundle.js'
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
+  devServer: {
+    port: 3000,
+    contentBase: path.resolve(__dirname, 'src')
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js?$/,
-        loader: 'babel-loader',
+        test: /\.jsx?$/, 
         exclude: /node_modules/,
-        query: {
-          cacheDirectory: true,
-          presets: ['react', 'es2015']
-        }
+        use: ["babel-loader"]
+      }, 
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      }, 
+      {
+        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        loader: "url-loader?limit=100000"
       }
     ]
   }
-}
+};
